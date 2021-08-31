@@ -1,6 +1,7 @@
 import "./about_note.scss"
 import {useState} from 'react'
 import { useSelector ,useDispatch } from "react-redux"
+import axios from "axios"
 
 import {Filter_Notes} from './filternotes/Filter_Notes'
 
@@ -11,11 +12,21 @@ const NOTE = ({note, id})=>{
     const [update, setupdate] = useState(false)
     
     const [text_changeFup , settext_changeFup] = useState('')
-  
+    const notes = useSelector(state => state.notes)
+    
+    
     const dispatch = useDispatch()
-    const handleDeleteclick =()=>{
+    const handleDeleteclick = async ()=>{
 
         dispatch(delete_notes(id))
+        const find_del_note = notes.find(m=>m.id == id)
+        
+        const del_note = {
+            time: find_del_note.time,
+            user: localStorage.getItem("user")
+        }
+        await axios.delete("/note", {data: del_note})
+
     }
     const changeImportantClick = () =>{
         
@@ -27,7 +38,7 @@ const NOTE = ({note, id})=>{
     }
 
     const handleUpdate = (event) =>{
-       
+        
         if(event.target.value == "save"){
             const content = {
                 id: note.id,
@@ -37,7 +48,6 @@ const NOTE = ({note, id})=>{
             }
             dispatch(forUpdate(content))
         }
-
         setupdate(!update)
     }
 
@@ -58,7 +68,6 @@ const NOTE = ({note, id})=>{
             onClick = {handleDeleteclick}
             />
             </p>
-           
         </div>
     )
 }
@@ -74,9 +83,15 @@ export default function Render_Notes() {
           ? state.notes.filter(note => note.important)
           : state.notes.filter(note => !note.important)
       })
+    const Logaut = async() =>{
+        localStorage.removeItem("user")
+        window.location.reload()
+        await axios.get("/logaut")
+    }
     
     return (
         <>  
+            <button onClick ={Logaut} className = "logaut">Logaut</button>
             <Filter_Notes
             notes = {notes}
             />

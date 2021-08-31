@@ -1,11 +1,13 @@
 import {Add_note} from "../../actions/adDelup"
-import {useDispatch } from "react-redux"
-
+import {useDispatch, useSelector } from "react-redux"
+import axios from "axios"
 
 const Filter_Notes = ({notes})=>{
-
+    
+    
     const dispatch = useDispatch()
-    const handleValue = (event)=>{
+
+    const handleValue = async (event)=>{
         event.preventDefault()
         const content = {
             id: notes.length+1,
@@ -13,8 +15,15 @@ const Filter_Notes = ({notes})=>{
             important: false,
             time : new Date().toLocaleString()
         }
+        const body = {
+            user_email: localStorage.getItem("user"),
+            note: event.target[0].value,
+            insert_time: new Date().toLocaleString(),
+            important: "NO"
+        }
         event.target[0].value = ""
         dispatch(Add_note(content))
+        await axios.post("/note", body)
     }
 
     return(

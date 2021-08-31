@@ -1,4 +1,4 @@
-
+@import "./reset_scss/GLOBAL.scss";
 body{
     padding: 20px;
 }
@@ -7,10 +7,23 @@ body{
     flex-direction: column;
     align-items: center;
     
-    
     h1{
         margin-bottom: 50px;
         font-size: 25px;
         text-align: center;
     }
+    .reg_log_wrappwer{
+        display:  flex;
+        width: 100%;
+        
+    }
 }
+
+.first_page{
+    display: flex;
+    width: 100%;
+    @include mobile{
+        flex-direction: column;
+    }
+}
+

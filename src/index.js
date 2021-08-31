@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 
 import {NoteReducer, conditionReducer} from "./reducers/notReducer"
+import {Reg_Log_Reduce} from "./reducers/Reg_Log_Reducer"
 
 import { createStore, combineReducers } from 'redux'
 import {Provider} from "react-redux"
@@ -10,7 +11,8 @@ import {Provider} from "react-redux"
 const comb = combineReducers(
   {
     notes: NoteReducer,
-    condition: conditionReducer
+    condition: conditionReducer,
+    responce: Reg_Log_Reduce
   }
 )
 const store = createStore(

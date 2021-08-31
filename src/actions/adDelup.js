@@ -1,4 +1,4 @@
-
+import axios from "axios"
 
 const Add_note = (content)=>{
     
@@ -6,7 +6,7 @@ const Add_note = (content)=>{
         type: "add_note",
         data: content
     }
-
+    
     return action
 }
 
