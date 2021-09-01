@@ -3,24 +3,24 @@ import {useDispatch, useSelector } from "react-redux"
 import axios from "axios"
 
 const Filter_Notes = ({notes})=>{
-    
-    
+  
     const dispatch = useDispatch()
-
+    
     const handleValue = async (event)=>{
         event.preventDefault()
         const content = {
             id: notes.length+1,
             content: event.target[0].value,
-            important: false,
+            important: "NOT",
             time : new Date().toLocaleString()
         }
         const body = {
             user_email: localStorage.getItem("user"),
             note: event.target[0].value,
             insert_time: new Date().toLocaleString(),
-            important: "NO"
+            important: "NOT"
         }
+       
         event.target[0].value = ""
         dispatch(Add_note(content))
         await axios.post("/note", body)

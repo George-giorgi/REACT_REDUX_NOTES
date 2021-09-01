@@ -1,4 +1,3 @@
-import axios from "axios"
 
 const Add_note = (content)=>{
     
@@ -38,5 +37,13 @@ const forUpdate = (content)=>{
     }
     return action
 }
+const get_all = (content)=>{
 
-export {Add_note, delete_notes , cahngeImportant, forUpdate}
+    const action ={
+        type: "get_all",
+        data: content
+    }
+    return action
+}
+
+export {Add_note, delete_notes , cahngeImportant, forUpdate, get_all}

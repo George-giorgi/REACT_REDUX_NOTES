@@ -1,11 +1,11 @@
 import "./about_note.scss"
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import { useSelector ,useDispatch } from "react-redux"
 import axios from "axios"
 
 import {Filter_Notes} from './filternotes/Filter_Notes'
 
-import {delete_notes, cahngeImportant, forUpdate} from '../actions/adDelup'
+import {delete_notes, cahngeImportant, forUpdate, get_all} from '../actions/adDelup'
 
 
 const NOTE = ({note, id})=>{
@@ -14,7 +14,7 @@ const NOTE = ({note, id})=>{
     const [text_changeFup , settext_changeFup] = useState('')
     const notes = useSelector(state => state.notes)
     
-    
+  
     const dispatch = useDispatch()
     const handleDeleteclick = async ()=>{
 
@@ -28,17 +28,42 @@ const NOTE = ({note, id})=>{
         await axios.delete("/note", {data: del_note})
 
     }
-    const changeImportantClick = () =>{
+    const changeImportantClick = async () =>{
+        const find_note_for_update = notes.find(m=>m.id == id)
+        console.log(find_note_for_update)
+        if(find_note_for_update.important == "NOT"){
+            const update_important = {
+                user: localStorage.getItem("user"),
+                old_time: find_note_for_update.time,
+                time: new Date().toLocaleString(),
+                important: "YES",
+                polimorfizm: "changeImportant",
+                content: find_note_for_update.content
+            }
+            dispatch(cahngeImportant(id))
+            await axios.put("/note", update_important)
+        }
+        else if(find_note_for_update.important == "YES"){
+            const update_important = {
+                user: localStorage.getItem("user"),
+                old_time: find_note_for_update.time,
+                time: new Date().toLocaleString(),
+                important: "NOT",
+                polimorfizm: "changeImportant",
+                content: find_note_for_update.content
+            }
+            dispatch(cahngeImportant(id))
+            await axios.put("/note", update_important)
+        }
         
-        dispatch(cahngeImportant(id))
     }
 
     const  handleInpupdate =(event)=>{
         settext_changeFup(event.target.value)
     }
-
-    const handleUpdate = (event) =>{
-        
+    
+    const handleUpdate = async (event) =>{
+        setupdate(!update)
         if(event.target.value == "save"){
             const content = {
                 id: note.id,
@@ -48,7 +73,41 @@ const NOTE = ({note, id})=>{
             }
             dispatch(forUpdate(content))
         }
-        setupdate(!update)
+        if(event.target.value == "save"){
+            const find_note_for_update = notes.find(m=>m.id == id)
+            console.log(find_note_for_update)
+            console.log(text_changeFup)
+            const update_important = {
+                user: localStorage.getItem("user"),
+                old_time: find_note_for_update.time,
+                content: text_changeFup,
+                time:new Date().toLocaleString(),
+                important: find_note_for_update.important,
+                polimorfizm: "changeContent", 
+            }
+            console.log(update_important)
+            await axios.put("/note", update_important)
+        }
+    }
+    const iportant_condition = (value, funcHandle)=>{
+        if (value == "NOT"){
+            return(
+                <>
+                <p onClick ={funcHandle}> 
+                   noneimportant</p>
+                <p>{note.time}</p>
+                </>
+            )
+        }
+        else if(value == "YES"){
+            return(
+                <>
+                <p onClick ={funcHandle}> 
+                   important</p>
+                <p>{note.time}</p>
+                </>
+            )
+        }
     }
 
     return(
@@ -57,16 +116,18 @@ const NOTE = ({note, id})=>{
                 update? <p><input onChange ={handleInpupdate} className ="update_input" placeholder ="enter note" autoFocus /></p> 
                 : <p>{note.content}</p>
             }
-            <p onClick ={changeImportantClick}>{note.important? "important" : "noneimportant"}</p>
-            <p>{note.time}</p>
+            {
+               iportant_condition(note.important, changeImportantClick ) 
+            }
+            
             <p>
-            <input className = {update? "onchange":"update_but" }
-                type ="button" value ={update? "save" : "update"} 
-                onClick = {handleUpdate}
-            />
-            <input className ="update_but" type ="button" value ="delete" 
-            onClick = {handleDeleteclick}
-            />
+                <input className = {update? "onchange":"update_but" }
+                    type ="button" value ={update? "save" : "update"} 
+                    onClick = {handleUpdate}
+                />
+                <input className ="update_but" type ="button" value ="delete" 
+                onClick = {handleDeleteclick}
+                />
             </p>
         </div>
     )
@@ -74,6 +135,7 @@ const NOTE = ({note, id})=>{
 
 
 export default function Render_Notes() {
+    const dispatch = useDispatch()
 
     const notes = useSelector(state => {
         if ( state.condition === 'ALL' ) {
@@ -88,6 +150,14 @@ export default function Render_Notes() {
         window.location.reload()
         await axios.get("/logaut")
     }
+    useEffect(()=>{
+        const fetch_data = async() => {
+            const responce = await axios.get("/note", {params:{user:localStorage.getItem("user")}})
+            
+            dispatch(get_all(responce.data))
+        }
+        fetch_data()
+    },[])
     
     return (
         <>  
@@ -96,10 +166,10 @@ export default function Render_Notes() {
             notes = {notes}
             />
             {
-                notes.map((note)=>{
+                notes.map((note,i)=>{
                     return(
                         <NOTE 
-                         key = {note.id}
+                         key = {i}
                          note ={note}
                          id = {note.id}
                         />
