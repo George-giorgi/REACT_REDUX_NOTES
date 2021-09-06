@@ -11,25 +11,67 @@
         align-items: center;
         justify-content: space-between;
         height: 180px;
+        
+       
+        .reg_log{
+            color: $color1;
+            font-size: 18px;
+            font-weight: 400;
+            @include mobile{
+                font-size: 16px;
+                font-weight: 300;
+            }
+        }
+        .link{
+            text-decoration: none;
+            color: white;
+            &:hover{
+                color: $color1;
+            }
+        }
         .error{
-            background: red;
+            color: $color4;
+            font-weight: 700;
+            height: 20px;
+            text-align: center;
+        }
+        .error_login{
+            color: $color4;
+            font-weight: 700;
             height: 20px;
             text-align: center;
         }
         input{
             padding: 5px;
             border-radius: 5px;
-            border: 1px solid grey;
+            letter-spacing: 0.5px;
+            outline: none;
+            border: none;
+            -webkit-transition: all 200ms linear;
+            transition: all 200ms linear;
             background: rgb(243, 243, 243);
+            box-shadow: 0 4px 8px 0 rgba(21,21,21,.2);
             &:focus{
                 outline: none;
+                border: none;
             }  
         }
         button{
             width: 100px;
             border-radius: 5px;
             padding: 4px;
-            border: 1px solid grey;
+            text-transform: uppercase;
+            -webkit-transition : all 200ms linear;
+            transition: all 200ms linear;
+            letter-spacing: 1px;
+            border: none;
+            box-shadow: 0 8px 24px 0 rgba(255,235,167,.2);
+            font-family: 'Roboto', sans-serif;
+            &:hover{
+                color: white;
+                background-color: $color1;
+                box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
+            }
         }
     }
 }

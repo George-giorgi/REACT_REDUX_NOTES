@@ -4,16 +4,46 @@
     margin: 0px 10px 5px 0px;
     border-radius: 5px;
     padding: 5px;
-    border: 1px solid gray;
+    border: none;
+    
     &:focus{
         outline: none;
-        border: 1px solid greenyellow;
+        outline: none;
+    }
+}
+.add_note_button{
+    width: 80px;
+    border-radius: 5px;
+    padding: 4px;
+    text-transform: uppercase;
+    -webkit-transition : all 200ms linear;
+    transition: all 200ms linear;
+    // letter-spacing: 1px;
+    border: none;
+    box-shadow: 0 8px 24px 0 rgba(255,235,167,.2);
+    font-family: 'Roboto', sans-serif;
+    &:hover{
+        color: white;
+        background-color: $color1;
+        box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
     }
 }
 .radio{
     margin-bottom: 20px;
     input[type = radio]{
         margin-right: 15px;
+    }
+    .radio_all{
+        color: $color2;
+    }
+    .radio_important{
+        color: $color4
+    }
+    .radio_noneimportant{
+        color: $color1;
+    }
+    @include mobile{
+        font-size: 15px;
     }
 }
 .add_note_but{
@@ -25,7 +55,24 @@
     padding: 5px;
     border-radius: 5px;
     border: 1px solid gray;
-    background: greenyellow;
+    background: rgb(205, 228, 171);
+    width: 70px;
+    border-radius: 5px;
+    padding: 4px;
+    text-transform: uppercase;
+    -webkit-transition : all 200ms linear;
+    transition: all 200ms linear;
+    letter-spacing: 1px;
+    border: none;
+    box-shadow: 0 8px 24px 0 rgba(255,235,167,.2);
+    font-family: 'Roboto', sans-serif;
+    margin-right: 5px;
+    cursor: pointer;
+    &:hover{
+        color: white;
+        background-color: yellowgreen;
+        box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
+    }
 }
   
 .about_note{
@@ -37,15 +84,23 @@
     width: 100%;
     @include mobile{
         flex-direction: column;
+        font-size: 16px;
     }
+    .noneimportant{
+        color: $color1;
+    }
+    .important{
+        color: $color4;
+    }
+    
     .update_input{
         border-radius: 5px;
         padding: 5px;
-        border: 1px solid gray;
+        border: none;
 
         &:focus{
             outline: none;
-            border: 1px solid greenyellow;
+            // border: 1px solid greenyellow;
         }
     }
     
@@ -71,7 +126,8 @@
     p:nth-child(3){
         font-weight: 550;
         margin-bottom: 25px;
-        color: gray;
+        // color: $color2;
+        color: white;
         font-size: 16px;
         @include mobile{
             margin-bottom: 5px;
@@ -89,6 +145,22 @@
             border-radius: 5px;
             border: 1px solid gray;
             margin-right: 5px;
+            width: 80px;
+            border-radius: 5px;
+            padding: 4px;
+            text-transform: uppercase;
+            -webkit-transition : all 200ms linear;
+            transition: all 200ms linear;
+            letter-spacing: 1px;
+            border: none;
+            box-shadow: 0 8px 24px 0 rgba(255,235,167,.2);
+            font-family: 'Roboto', sans-serif;
+            cursor: pointer;
+            &:hover{
+                color: white;
+                background-color: $color1;
+                box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
+            }
         }
     }  
 }
@@ -96,5 +168,26 @@
 .logaut{
     position: absolute;
     top: 20px;
-    right: 20px;
+    
+    width: 80px;
+    border-radius: 5px;
+    padding: 4px;
+    text-transform: uppercase;
+    -webkit-transition : all 200ms linear;
+    transition: all 200ms linear;
+    letter-spacing: 1px;
+    border: none;
+    box-shadow: 0 8px 24px 0 rgba(255,235,167,.2);
+    font-family: 'Roboto', sans-serif;
+    &:hover{
+        color: white;
+        background-color: $color1;
+        box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
+    }
+}
+
+.for_responsive{
+    @include mobile{
+        margin-top: 60px;
+    }
 }

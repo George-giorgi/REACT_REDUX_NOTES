@@ -6,22 +6,26 @@ import axios from "axios"
 import {Filter_Notes} from './filternotes/Filter_Notes'
 
 import {delete_notes, cahngeImportant, forUpdate, get_all} from '../actions/adDelup'
+import Weather from "./weather/Weather"
 
 
 const NOTE = ({note, id})=>{
     const [update, setupdate] = useState(false)
-    
     const [text_changeFup , settext_changeFup] = useState('')
     const notes = useSelector(state => state.notes)
+    const changed_theme = useSelector(state => state.theme)
+    
     
   
     const dispatch = useDispatch()
     const handleDeleteclick = async ()=>{
 
         dispatch(delete_notes(id))
-        const find_del_note = notes.find(m=>m.id == id)
+
+        const find_del_note = notes.find(m=>m.id === id)
         
         const del_note = {
+
             time: find_del_note.time,
             user: localStorage.getItem("user")
         }
@@ -29,9 +33,10 @@ const NOTE = ({note, id})=>{
 
     }
     const changeImportantClick = async () =>{
-        const find_note_for_update = notes.find(m=>m.id == id)
-        console.log(find_note_for_update)
-        if(find_note_for_update.important == "NOT"){
+        const find_note_for_update = notes.find(m=> m.id === id)
+        
+        if(find_note_for_update.important === "NOT"){
+
             const update_important = {
                 user: localStorage.getItem("user"),
                 old_time: find_note_for_update.time,
@@ -43,8 +48,9 @@ const NOTE = ({note, id})=>{
             dispatch(cahngeImportant(id))
             await axios.put("/note", update_important)
         }
-        else if(find_note_for_update.important == "YES"){
+        else if(find_note_for_update.important === "YES"){
             const update_important = {
+
                 user: localStorage.getItem("user"),
                 old_time: find_note_for_update.time,
                 time: new Date().toLocaleString(),
@@ -59,12 +65,13 @@ const NOTE = ({note, id})=>{
     }
 
     const  handleInpupdate =(event)=>{
+
         settext_changeFup(event.target.value)
     }
     
     const handleUpdate = async (event) =>{
         setupdate(!update)
-        if(event.target.value == "save"){
+        if(event.target.value === "save"){
             const content = {
                 id: note.id,
                 content : text_changeFup,
@@ -73,11 +80,12 @@ const NOTE = ({note, id})=>{
             }
             dispatch(forUpdate(content))
         }
-        if(event.target.value == "save"){
-            const find_note_for_update = notes.find(m=>m.id == id)
-            console.log(find_note_for_update)
-            console.log(text_changeFup)
+        if(event.target.value === "save"){
+
+            const find_note_for_update = notes.find(m=>m.id === id)
+           
             const update_important = {
+
                 user: localStorage.getItem("user"),
                 old_time: find_note_for_update.time,
                 content: text_changeFup,
@@ -85,26 +93,30 @@ const NOTE = ({note, id})=>{
                 important: find_note_for_update.important,
                 polimorfizm: "changeContent", 
             }
-            console.log(update_important)
+            
             await axios.put("/note", update_important)
         }
     }
+  
     const iportant_condition = (value, funcHandle)=>{
-        if (value == "NOT"){
+
+        if (value === "NOT"){
+
             return(
                 <>
-                <p onClick ={funcHandle}> 
+                <p onClick ={funcHandle} className ="noneimportant"> 
                    noneimportant</p>
-                <p>{note.time}</p>
+                <p className="time">{note.time}</p>
                 </>
             )
         }
-        else if(value == "YES"){
+        else if(value === "YES"){
+
             return(
                 <>
-                <p onClick ={funcHandle}> 
+                <p onClick ={funcHandle} className ="important"> 
                    important</p>
-                <p>{note.time}</p>
+                <p className ="time">{note.time}</p>
                 </>
             )
         }
@@ -114,7 +126,7 @@ const NOTE = ({note, id})=>{
         <div className ="about_note">
             {
                 update? <p><input onChange ={handleInpupdate} className ="update_input" placeholder ="enter note" autoFocus /></p> 
-                : <p>{note.content}</p>
+                : <p style = {changed_theme ? {color:"white"} : {}} >{note.content}</p>
             }
             {
                iportant_condition(note.important, changeImportantClick ) 
@@ -142,10 +154,12 @@ export default function Render_Notes() {
           return state.notes
         }
         return state.condition  === 'important' 
-          ? state.notes.filter(note => note.important)
-          : state.notes.filter(note => !note.important)
+          ? state.notes.filter(note => note.important === "YES")
+          : state.notes.filter(note => note.important=== "NOT")
       })
+    console.log(notes.length)
     const Logaut = async() =>{
+
         localStorage.removeItem("user")
         window.location.reload()
         await axios.get("/logaut")
@@ -162,21 +176,28 @@ export default function Render_Notes() {
     return (
         <>  
             <button onClick ={Logaut} className = "logaut">Logaut</button>
+            
+            <Weather />
             <Filter_Notes
             notes = {notes}
             />
             {
-                notes.map((note,i)=>{
-                    return(
-                        <NOTE 
-                         key = {i}
-                         note ={note}
-                         id = {note.id}
-                        />
-                    )
-                    
-                })
+                notes.length == 0 ? ". . . . . . . ":
+                
+                    notes.map((note,i)=>{
+                      
+                        return(
+                            <NOTE 
+                             key = {i}
+                             note ={note}
+                             id = {note.id}
+                            />
+                        )
+                        
+                    })
+                
             }
+            
             
         </>
     )

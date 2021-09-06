@@ -1,4 +1,4 @@
-import {NOTES} from '../data_note'
+
 
 const sort_data = (data)=>{
     const sorted_data = data.sort((a,b)=>{
@@ -25,38 +25,38 @@ const NoteReducer = (state = []  ,action)=>{
             return add_sort_data
         case "delete_notes":
             const delete_note_id = action.for_delete_id
-            const filter_for_delete = state.filter(item=> item.id != delete_note_id)
+            const filter_for_delete = state.filter(item=> item.id !== delete_note_id)
             return filter_for_delete
         case "change_important":
             const for_change_id = action.for_change_id
-            const find_for_change = state.find(item => item.id == for_change_id)
-            if(find_for_change.important == "NOT"){
+            const find_for_change = state.find(item => item.id === for_change_id)
+            if(find_for_change.important === "NOT"){
                 const changeNote = {
                     ...find_for_change,
                     important: "YES",
                     time: new Date().toLocaleString()
                 }
-                return state.map((note) => note.id != for_change_id? note : changeNote)
+                return state.map((note) => note.id !== for_change_id? note : changeNote)
             }
-            else if(find_for_change.important == "YES"){
+            else if(find_for_change.important === "YES"){
                 const changeNote = {
                     ...find_for_change,
                     important: "NOT",
                     time: new Date().toLocaleString()
                 }
-                return state.map((note) => note.id != for_change_id? note : changeNote)
+                return state.map((note) => note.id !== for_change_id? note : changeNote)
             }  
         case "update":
             const dataFupdate = action.data
             
-            const find_note = state.find(note => note.id == dataFupdate.id)
+            const find_note = state.find(note => note.id === dataFupdate.id)
             const changed_note = {
                 ...find_note,
                 content: dataFupdate.content,
                 time: new Date().toLocaleString()
             }
             return state.map((note) => {
-               return note.id != find_note.id? note: changed_note
+               return note.id !== find_note.id? note: changed_note
             })
         default: 
             
