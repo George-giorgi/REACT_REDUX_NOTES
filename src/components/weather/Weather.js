@@ -3,12 +3,15 @@ import {useEffect, useState} from "react"
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import Svg from "./svg/Svg"
+import {Link} from "react-router-dom"
+
 
 
 export default function Weather() {
     const [value, setvalue] = useState("Tbilisi")
+    
     const dispatch = useDispatch()
-
+    
     const one_wheather = useSelector(state => state.wheather)
     const changed_theme = useSelector(state => state.theme)
     const wheather_city = one_wheather.filter(item => item.city === value )
@@ -40,7 +43,11 @@ export default function Weather() {
                 <option className="option" value="Rustavi">Rustavi</option>
                 <option className="option" value="Batumi">Batumi</option> 
             </select>
-    
+            <p onClick = {()=>dispatch({
+                type: "get_filter",
+                data: wheather_city
+            })}> <Link className ="goFivedays" to = "/fivedays">5 day  forecast</Link></p>
+            
         </div>
         
     )

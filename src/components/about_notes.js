@@ -148,7 +148,7 @@ const NOTE = ({note, id})=>{
 
 export default function Render_Notes() {
     const dispatch = useDispatch()
-
+    const theme = useSelector(state => state.theme)
     const notes = useSelector(state => {
         if ( state.condition === 'ALL' ) {
           return state.notes
@@ -157,7 +157,7 @@ export default function Render_Notes() {
           ? state.notes.filter(note => note.important === "YES")
           : state.notes.filter(note => note.important=== "NOT")
       })
-    console.log(notes.length)
+    
     const Logaut = async() =>{
 
         localStorage.removeItem("user")
@@ -172,6 +172,7 @@ export default function Render_Notes() {
         }
         fetch_data()
     },[])
+
     
     return (
         <>  

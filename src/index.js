@@ -15,7 +15,8 @@ const comb = combineReducers(
     condition: conditionReducer,
     responce: Reg_Log_Reduce,
     wheather: whatherReducer,
-    theme: change_theme
+    theme: change_theme,
+  
   }
 )
 const store = createStore(

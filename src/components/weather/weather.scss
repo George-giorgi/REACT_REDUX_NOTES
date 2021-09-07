@@ -15,6 +15,15 @@
         align-items: center;
       
     }
+    .goFivedays{
+        text-decoration: none;
+        margin-left: 5px;
+        color: $color1;
+
+        &:hover{
+            border-bottom: 1px solid $color1;
+        }
+    }
    
     .current_wheather{
         display: flex;

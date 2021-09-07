@@ -1,0 +1,32 @@
+@import "../../reset_scss/GLOBAL.scss";
+
+.main_5Days{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .baCktonotes{
+        text-decoration: none;
+        color: $color1;
+        &:hover{
+            border-bottom: 1px solid $color1;
+        }
+    }
+    .wrappDayforecast{
+        display: flex;
+        align-items: center;
+        p{
+            margin-left: 25px;
+            text-align: left;
+            color: white;
+            padding: 5px;
+        }
+        svg{
+            width: 50px;
+            height: 50px;
+        }
+        .tempp{
+            width: 50px;
+        }
+    }
+}
+
