@@ -47,7 +47,7 @@ export default function Login({back}) {
                     <p className = "error">{
                         current_state.valid !== "register" && current_state.reps
                     }</p>
-                    <button  type = "submit">
+                    <button className ="submit" type = "submit">
                     submit
                     </button>
                 </div> 

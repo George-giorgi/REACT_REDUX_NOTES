@@ -176,7 +176,7 @@ export default function Render_Notes() {
     
     return (
         <>  
-            <button onClick ={Logaut} className = "logaut">Logaut</button>
+            <button  onClick ={Logaut} className = "logaut">Logaut</button>
             
             <Weather />
             <Filter_Notes

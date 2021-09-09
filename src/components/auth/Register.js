@@ -49,7 +49,7 @@ export default function Register() {
                     <p className = "error_login">{
                     current_state.valid !== "login" && current_state.reps
                     }</p>
-                    <button type = "submit">
+                    <button className ="submit" type = "submit">
                     submit
                     </button>
                 </div> 
